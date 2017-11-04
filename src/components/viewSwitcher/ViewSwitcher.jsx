@@ -4,16 +4,19 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import { todoList, todoTable } from '../../actions';
 
-const ViewSwitcher = ({ todoList, todoTable }) => (
+const ViewSwitcher = ({ todoList, todoTable, list }) => (
     <div>
-        <RaisedButton label="List" primary={true} onClick={todoList} />
-        <RaisedButton label="Table" primary={true} onClick={todoTable} />
+        {
+            list ?
+                <RaisedButton label="Table" primary={true} onClick={todoTable} /> :
+                <RaisedButton label="List" primary={true} onClick={todoList} />
+        }
     </div>
 );
 
-const mapDispatchToProps = {
+export default connect( ({ todoView }) => ({
+    list: todoView
+}), {
     todoList,
     todoTable
-};
-
-export default connect(null, mapDispatchToProps)(ViewSwitcher);
+})(ViewSwitcher);
