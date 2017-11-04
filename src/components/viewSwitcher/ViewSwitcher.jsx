@@ -1,14 +1,22 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 
-export default class ViewSwitcher extends React.Component {
-    render() {
-        const { switchList, switchTable,  } = this.props;
-        return (
-            <div>
-                <RaisedButton label="List" primary={true} onClick={switchList} />
-                <RaisedButton label="Table" primary={true} onClick={switchTable} />
-            </div>
-        )
-    }
-}
+import { todoList, todoTable } from '../../actions';
+
+const ViewSwitcher = ({ todoList, todoTable, list }) => (
+    <div>
+        {
+            list ?
+                <RaisedButton label="Table" primary={true} onClick={todoTable} /> :
+                <RaisedButton label="List" primary={true} onClick={todoList} />
+        }
+    </div>
+);
+
+export default connect( ({ todoView }) => ({
+    list: todoView
+}), {
+    todoList,
+    todoTable
+})(ViewSwitcher);
