@@ -6,16 +6,15 @@ import ViewSwitcher from '../viewSwitcher/ViewSwitcher';
 import List from '../list/List';
 import Table from '../table/Table';
 
-const MainPage = ({ list, todos }) => (
+const MainPage = ({ todoView }) => (
     <div>
         <AddTask />
         <ViewSwitcher/>
-        {list ? <List tasks={todos}/> : <Table tasks={todos}/>}
+        {todoView ? <List /> : <Table />}
     </div>
 );
 
 
-export default connect( ({ todoView, todos }) => ({
-    list: todoView,
-    todos
+export default connect( ({ todoView }) => ({
+    todoView
 }))(MainPage);

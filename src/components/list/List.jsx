@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {List, ListItem} from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';
 import Clear from 'material-ui/svg-icons/content/clear';
-import { completeTask, deleteTask } from '../../actions';
+import { completeTask, deleteTask } from 'actions';
 
 
 const TodoList = ({ tasks, completeTask, deleteTask }) => {
@@ -18,7 +19,8 @@ const TodoList = ({ tasks, completeTask, deleteTask }) => {
     const list = () => tasks.map(task => (
         <ListItem
             key={task.id}
-            primaryText={task.name}
+            primaryText={<Link to={`/task/${task.id}`}
+                               style={{textDecoration: 'none', color: '#000', display: 'block'}} >{task.name}</Link>}
             leftIcon={<Checkbox checked={task.completed} onCheck={handleCheck} data-id={task.id} />}
             rightIcon={<Clear onClick={handleDelete} data-id={task.id} />}/>
     ));
@@ -30,7 +32,9 @@ const TodoList = ({ tasks, completeTask, deleteTask }) => {
     )
 };
 
-export default connect(null, {
+export default connect( ({ todos }) => ({
+    tasks: todos
+}), {
     completeTask,
     deleteTask
 })(TodoList)

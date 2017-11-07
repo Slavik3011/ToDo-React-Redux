@@ -30,6 +30,13 @@ export function completeTask(id) {
     }
 }
 
+export function renameTask(obj) {
+    return {
+        type: 'RENAME_TASK',
+        payload: obj
+    }
+}
+
 export function deleteTask(id) {
     return {
         type: 'DELETE_TASK',

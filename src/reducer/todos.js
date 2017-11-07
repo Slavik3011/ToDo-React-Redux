@@ -1,10 +1,11 @@
 export default (state = [], action) => {
+    let newState = [];
+
     switch (action.type) {
         case 'ADD_TASK':
             return [...state, action.payload];
 
         case 'COMPLETE_TASK':
-            let newState = [];
             state.forEach(task => {
                 let newTask = Object.assign({}, task);
                 if(newTask.id == action.payload) newTask.completed = !newTask.completed;
@@ -12,12 +13,20 @@ export default (state = [], action) => {
             });
             return newState;
 
-        case 'DELETE_TASK':
-            let newStates = [];
+        case 'RENAME_TASK':
             state.forEach(task => {
-                if(task.id != action.payload) newStates.push(task);
+                let newTask = Object.assign({}, task);
+                if(newTask.id == action.payload.id) newTask.name = action.payload.name;
+                newState.push(newTask);
             });
-            return newStates;
+            console.log(newState)
+            return newState;
+
+        case 'DELETE_TASK':
+            state.forEach(task => {
+                if(task.id != action.payload) newState.push(task);
+            });
+            return newState;
 
         default:
             return state;
