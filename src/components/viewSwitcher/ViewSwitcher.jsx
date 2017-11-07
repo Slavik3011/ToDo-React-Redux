@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import { todoList, todoTable } from '../../actions';
+import { todoList, todoTable } from 'actions';
 
 const ViewSwitcher = ({ todoList, todoTable, list }) => (
-    <div>
+    <div style={{margin: '10px 0 20px', textAlign: 'right' }}>
         {
             list ?
                 <RaisedButton label="Table" primary={true} onClick={todoTable} /> :

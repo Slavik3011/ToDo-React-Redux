@@ -1,19 +1,35 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
 import Checkbox from 'material-ui/Checkbox';
+import Clear from 'material-ui/svg-icons/content/clear';
+import { connect } from 'react-redux';
 
-export default props => {
+import './table.sass';
+
+import { completeTask, deleteTask } from 'actions';
+
+const TableContainer = ({ tasks, completeTask, deleteTask }) => {
     const handleCheck = e => {
-        console.log(e.target.dataset.id);
-        console.log('click');
+        completeTask(e.target.dataset.id);
     };
 
-    const list = () => props.tasks.map(task => (
+    const list = () => tasks.map(task => (
         <TableRow key={task.id} >
-            <TableRowColumn><Checkbox checked={task.completed} onCheck={handleCheck} data-id={task.id} /></TableRowColumn>
-            <TableRowColumn>{task.name}</TableRowColumn>
+            <TableRowColumn style={{width: '30px'}}><Checkbox checked={task.completed} onCheck={handleCheck} data-id={task.id} /></TableRowColumn>
+            <TableRowColumn>
+                <Link to={`/task/${task.id}`}
+                      style={{textDecoration: 'none', color: '#000', display: 'block'}} >{task.name}</Link>
+            </TableRowColumn>
+            <TableRowColumn style={{textAlign: 'right'}}>
+                <Clear onClick={handleDelete} data-id={task.id} />
+            </TableRowColumn>
         </TableRow>
     ));
+
+    const handleDelete = e => {
+        deleteTask(e.target.dataset.id);
+    };
 
     return (
         <Table>
@@ -23,3 +39,10 @@ export default props => {
         </Table>
     )
 }
+
+export default connect( ({ todos }) => ({
+    tasks: todos
+}), {
+    completeTask,
+    deleteTask
+} )(TableContainer)
